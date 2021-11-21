@@ -48,7 +48,7 @@
 #include <sys/types.h>
 #include <sys/param.h>
 #include <unistd.h>
-#ifndef __Fuchsia__
+#if !defined(__Fuchsia__) && !defined(__HAIKU__)
 #include <sys/sysctl.h>
 #endif
 #ifdef __APPLE__
@@ -62,6 +62,9 @@
 #endif
 #ifdef __ANDROID__
 #include <android/api-level.h>
+#endif
+#ifdef __HAIKU__
+#include <OS.h>
 #endif
 
 #include "WelsThreadLib.h"
@@ -232,7 +235,7 @@ WELS_THREAD_ERROR_CODE    WelsThreadCreate (WELS_THREAD_HANDLE* thread,  LPWELS_
   err = pthread_attr_init (&at);
   if (err)
     return err;
-#if !defined(__ANDROID__) && !defined(__Fuchsia__)
+#if !defined(__ANDROID__) && !defined(__Fuchsia__) && !defined(__HAIKU__)
   err = pthread_attr_setscope (&at, PTHREAD_SCOPE_SYSTEM);
   if (err)
     return err;
@@ -509,6 +512,13 @@ WELS_THREAD_ERROR_CODE    WelsQueryLogicalProcessInfo (WelsLogicalProcessInfo* p
 
   // There is not yet a way to determine CPU count in emscripten JS environment.
   pInfo->ProcessorCount = 1;
+  return WELS_THREAD_ERROR_OK;
+
+#elif defined(__HAIKU__)
+
+  system_info info;
+  get_system_info(&info);
+  pInfo->ProcessorCount = info.cpu_count;
   return WELS_THREAD_ERROR_OK;
 
 #elif defined(__Fuchsia__)
