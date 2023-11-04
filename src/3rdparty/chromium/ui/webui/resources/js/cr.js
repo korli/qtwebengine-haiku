@@ -431,6 +431,11 @@ var cr = cr || function(global) {
       return /Mac/.test(navigator.platform);
     },
 
+    /** Whether this is on *Haiku. */
+    get isHaiku() {
+      return /Haiku/.test(navigator.userAgent);
+    },
+
     /** Whether this is on the Windows platform or not. */
     get isWindows() {
       return /Win/.test(navigator.platform);

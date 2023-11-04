@@ -121,10 +121,14 @@ static_library("usrsctp") {
     "-UINET6",
   ]
 
-  if (is_linux || is_android) {
+  if ((is_linux && !is_haiku) || is_android ) {
     defines += [
       "__Userspace_os_Linux",
       "_GNU_SOURCE",
+    ]
+  } else if (is_haiku) {
+    defines += [
+      "__Userspace_os_Haiku",
     ]
   } else if (is_mac || is_ios) {
     defines += [

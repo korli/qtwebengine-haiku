@@ -23,7 +23,7 @@ bool FilePathWatcher::RecursiveWatchAvailable() {
     defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_AIX)
   return true;
 #else
-  // FSEvents isn't available on iOS.
+  // FSEvents isn't available on iOS and the kqueue watcher.
   return false;
 #endif
 }

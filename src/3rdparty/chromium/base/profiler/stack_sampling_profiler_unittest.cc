@@ -43,7 +43,7 @@
 #include <intrin.h>
 #include <malloc.h>
 #include <windows.h>
-#else
+#elif !defined(OS_HAIKU)
 #include <alloca.h>
 #endif
 

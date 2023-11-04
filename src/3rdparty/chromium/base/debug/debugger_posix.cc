@@ -95,7 +95,7 @@ bool BeingDebugged() {
     KERN_PROC,
     KERN_PROC_PID,
     getpid()
-#if defined(OS_OPENBSD)
+#if defined(OS_HAIKU) 
     , sizeof(struct kinfo_proc),
     0
 #endif

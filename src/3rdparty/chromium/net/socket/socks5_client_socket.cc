@@ -4,6 +4,10 @@
 
 #include "net/socket/socks5_client_socket.h"
 
+#if defined(OS_HAIKU)
+#include <netinet/in.h>
+#endif
+
 #include <utility>
 
 #include "base/bind.h"
