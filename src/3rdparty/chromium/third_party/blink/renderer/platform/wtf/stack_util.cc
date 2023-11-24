@@ -95,8 +95,12 @@ size_t GetUnderestimatedStackSize() {
 #endif
   }
   return pthread_get_stacksize_np(pthread_self());
-#elif defined(OS_HAIKU) || defined(OS_WIN) && defined(COMPILER_MSVC)
+#elif defined(OS_WIN) && defined(COMPILER_MSVC)
 return WTF::internal::ThreadStackSize();
+#elif defined(OS_HAIKU)
+  thread_info threadInfo;
+  get_thread_info(find_thread(NULL), &threadInfo);
+  return (size_t)threadInfo.stack_end - (size_t)threadInfo.stack_base;
 #else
 #error "Stack frame size estimation not supported on this platform."
   return 0;
@@ -157,7 +161,7 @@ void* GetStackStart() {
 #elif defined(OS_HAIKU)
   thread_info threadInfo;
   get_thread_info(find_thread(NULL), &threadInfo);
-  return threadInfo.stack_base;
+  return threadInfo.stack_end;
 #else
 #error Unsupported getStackStart on this platform.
 #endif
