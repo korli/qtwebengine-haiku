@@ -138,12 +138,13 @@ config("sqlite_warnings") {
       ]
     }
   }
-  if ((is_linux && !is_haiku) || is_chromeos) {
+  if ((is_linux || is_haiku) || is_chromeos) {
     cflags += [
       # SQLite doesn't believe in compiler warnings, preferring testing.
       # http://www.sqlite.org/faq.html#q17
       "-Wno-int-to-pointer-cast",
       "-Wno-pointer-to-int-cast",
+      "-Wreturn-local-addr"
     ]
   }
   if (is_ios) {
