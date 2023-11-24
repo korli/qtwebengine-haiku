@@ -438,9 +438,9 @@ ScriptEvaluationResult V8ScriptRunner::CompileAndRunScript(
             .ToLocal(&script)) {
       maybe_result =
           V8ScriptRunner::RunCompiledScript(isolate, script, execution_context);
-      probe::ProduceCompilationCache(probe::ToCoreProbeSink(execution_context),
-                                     source, script);
-      V8CodeCache::ProduceCache(isolate, script, source, produce_cache_options);
+//      probe::ProduceCompilationCache(probe::ToCoreProbeSink(execution_context),
+//                                     source, script);
+//      V8CodeCache::ProduceCache(isolate, script, source, produce_cache_options);
     }
 
     // TODO(crbug/1114601): Investigate whether to check CanContinue() in other
